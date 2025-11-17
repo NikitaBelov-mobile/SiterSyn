@@ -1,28 +1,65 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { createClient } from '@/lib/supabase/server';
+import { UserNav } from '@/components/UserNav';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <div className="max-w-5xl w-full text-center">
-        <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          SiterSyn
-        </h1>
-        <p className="text-2xl text-gray-600 mb-8">
-          Мгновенная генерация профессиональных сайтов с помощью AI
-        </p>
-        <div className="flex gap-4 justify-center">
-          <Button asChild size="lg">
-            <Link href="/dashboard">
-              Начать бесплатно
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="text-2xl font-bold">
+              SiterSyn
             </Link>
-          </Button>
-          <Button variant="outline" size="lg" asChild>
-            <Link href="#features">
-              Узнать больше
-            </Link>
-          </Button>
+            <nav className="flex items-center gap-4">
+              {user ? (
+                <>
+                  <Button variant="ghost" asChild>
+                    <Link href="/dashboard">Dashboard</Link>
+                  </Button>
+                  <UserNav />
+                </>
+              ) : (
+                <>
+                  <Button variant="ghost" asChild>
+                    <Link href="/login">Sign in</Link>
+                  </Button>
+                  <Button asChild>
+                    <Link href="/signup">Sign up</Link>
+                  </Button>
+                </>
+              )}
+            </nav>
+          </div>
         </div>
+      </header>
+
+      {/* Hero Section */}
+      <main className="flex flex-col items-center justify-center p-24">
+        <div className="max-w-5xl w-full text-center">
+          <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            SiterSyn
+          </h1>
+          <p className="text-2xl text-gray-600 mb-8">
+            Мгновенная генерация профессиональных сайтов с помощью AI
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button asChild size="lg">
+              <Link href={user ? "/dashboard" : "/signup"}>
+                {user ? "Go to Dashboard" : "Начать бесплатно"}
+              </Link>
+            </Button>
+            <Button variant="outline" size="lg" asChild>
+              <Link href="#features">
+                Узнать больше
+              </Link>
+            </Button>
+          </div>
 
         <div id="features" className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="p-6 border rounded-lg">
@@ -38,7 +75,8 @@ export default function HomePage() {
             <p className="text-gray-600">От $15/месяц</p>
           </div>
         </div>
-      </div>
-    </main>
+        </div>
+      </main>
+    </div>
   )
 }

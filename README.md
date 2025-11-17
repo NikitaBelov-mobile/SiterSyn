@@ -26,27 +26,59 @@ AI Site Generator - это платформа, которая за **5 мину�
 
 ## 🚀 Быстрый старт
 
+### Локальная разработка
+
+```bash
+# 1. Клонировать репозиторий
+git clone https://github.com/yourusername/SiterSyn.git
+cd SiterSyn
+
+# 2. Установить зависимости
+npm install
+
+# 3. Настроить environment variables
+cp .env.example .env
+# Отредактируйте .env, добавив ваши API ключи
+
+# 4. Запустить dev сервер
+npm run dev
+```
+
+Откройте [http://localhost:3000](http://localhost:3000) в браузере.
+
+### Environment Variables
+
+Создайте `.env` файл со следующими переменными:
+
+```bash
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+# Anthropic (Claude)
+ANTHROPIC_API_KEY=your_anthropic_api_key
+
+# Upstash Redis
+UPSTASH_REDIS_REST_URL=your_redis_url
+UPSTASH_REDIS_REST_TOKEN=your_redis_token
+
+# Stripe
+STRIPE_SECRET_KEY=your_stripe_sk
+STRIPE_WEBHOOK_SECRET=your_webhook_secret
+# ... и другие (см. .env.example)
+```
+
+### Документация
+
 Полная документация в папке `/docs`:
 
 1. **[Project Overview](docs/project_overview.md)** - обзор проекта и технологий
-2. **[Implementation Plan](docs/implementation_plan.md)** - детальный план реализации (8 недель)
-3. **[Quick Start Guide](docs/QUICKSTART.md)** - краткое руководство для немедленного старта
-4. **[Optimization Algorithms](docs/optimization_algorithms.md)** - технические детали
-5. **[Financial Model](docs/financial_model.md)** - бизнес-модель и прогнозы
-
-### Минимальный старт (30 минут)
-
-```bash
-# 1. Клонировать и установить
-npx create-next-app@latest ai-site-generator --typescript --tailwind --app
-cd ai-site-generator
-npm install @anthropic-ai/sdk @supabase/supabase-js @upstash/redis stripe
-
-# 2. Настроить .env.local (см. Quick Start Guide)
-
-# 3. Запустить
-npm run dev
-```
+2. **[Implementation Plan](docs/implementation_plan.md)** - детальный план реализации
+3. **[API Documentation](docs/API.md)** - API reference
+4. **[Deployment Guide](docs/DEPLOYMENT.md)** - руководство по деплою
+5. **[Optimization Algorithms](docs/optimization_algorithms.md)** - технические детали
+6. **[Financial Model](docs/financial_model.md)** - бизнес-модель и прогнозы
 
 ---
 
@@ -127,9 +159,16 @@ SiterSyn/
 ## 🎯 Текущий статус
 
 - 🟢 **Документация**: Complete
-- 🟡 **Разработка**: Ready to Start
-- ⚪ **MVP**: Planned Q1 2025
-- ⚪ **Production**: Planned Q2 2025
+- 🟢 **Разработка**: MVP Complete
+  - ✅ Phase 1: Infrastructure
+  - ✅ Phase 2: AI Generation with TOON
+  - ✅ Phase 3: Editor & Preview
+  - ✅ Phase 4: Authentication & Credits
+  - ✅ Phase 5: Optimization & Caching
+  - ✅ Phase 6: Payments (Stripe + YooKassa)
+  - ✅ Phase 7: Deployment & Monitoring
+- 🟡 **Testing**: In Progress
+- ⚪ **Production**: Ready for Deploy
 
 ---
 

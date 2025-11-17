@@ -8,6 +8,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { TOONEncoder } from '@/lib/ai/toon/encoder';
 import { getClaudeService } from '@/lib/ai/claude';
 import { createClient } from '@/lib/supabase/server';
+import { cacheManager } from '@/lib/cache/manager';
+import { hybridGenerator } from '@/lib/generators/hybrid';
 
 interface GenerateRequest {
   prompt: string;
@@ -116,7 +118,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<GenerateRespo
       encodingResult = encoder.encode(prompt);
     }
 
-    const { toon, spec, confidence, method, warnings } = encodingResult;
+    const { toon, spec, confidence, method: encodingMethod, warnings } = encodingResult;
 
     // Check confidence threshold
     if (confidence < 0.5) {
@@ -129,13 +131,25 @@ export async function POST(req: NextRequest): Promise<NextResponse<GenerateRespo
       );
     }
 
-    // Generate site with Claude
-    const claude = getClaudeService();
-    const generationResult = await claude.generateSite(toon);
+    // Decide generation method using hybrid generator
+    const decision = await hybridGenerator.decide(spec, prompt);
+    console.log('[HybridGen] Decision:', decision);
 
-    const { code, usage, cost } = generationResult;
+    // Try to get from cache or generate
+    const { data: cacheResult, cached } = await cacheManager.getOrGenerate(
+      toon,
+      async () => {
+        // Generate using decided method
+        const genResult = await hybridGenerator.generate(spec, decision, prompt);
+        return genResult;
+      },
+      { skipCache: false }
+    );
+
+    const { code, method: generationMethod, cost, templateUsed } = cacheResult;
 
     // Validate generated code
+    const claude = getClaudeService();
     const validation = claude.validateCode(code);
     if (!validation.valid) {
       console.error('Generated code validation failed:', validation.errors);
@@ -183,8 +197,8 @@ export async function POST(req: NextRequest): Promise<NextResponse<GenerateRespo
 
     // Deduct credit
     const { error: deductError } = await supabase.rpc('deduct_credit', {
-      user_id: user.id,
-      amount: 1,
+      p_user_id: user.id,
+      p_amount: 1,
     } as any);
 
     if (deductError) {
@@ -198,16 +212,19 @@ export async function POST(req: NextRequest): Promise<NextResponse<GenerateRespo
       user_id: user.id,
       site_id: site.id,
       toon_spec: toon,
-      method: method,
+      method: generationMethod,
       cost: cost,
       duration: duration,
-      cached: false,
+      cached: cached,
     } as any);
 
     if (logError) {
       console.error('Failed to log generation:', logError);
       // Don't fail the request
     }
+
+    // Calculate savings
+    const savings = hybridGenerator.calculateSavings(generationMethod);
 
     // Return success response
     return NextResponse.json({
@@ -221,8 +238,11 @@ export async function POST(req: NextRequest): Promise<NextResponse<GenerateRespo
       },
       toon,
       confidence,
-      method,
+      method: generationMethod,
       cost,
+      cached,
+      templateUsed,
+      savings: savings.savedPercent > 0 ? savings : undefined,
     });
   } catch (error) {
     console.error('Generation error:', error);

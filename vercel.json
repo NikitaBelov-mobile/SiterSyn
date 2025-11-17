@@ -1,0 +1,18 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/warm-cache",
+      "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/cron/cleanup",
+      "schedule": "0 2 * * *"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/s/:slug",
+      "destination": "/site/:slug"
+    }
+  ]
+}

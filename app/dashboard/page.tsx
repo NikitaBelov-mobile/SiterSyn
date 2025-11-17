@@ -2,7 +2,6 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { SiteCard } from '@/components/SiteCard';
 import { CreateSiteDialog } from '@/components/CreateSiteDialog';
-import { Badge } from '@/components/ui/badge';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,32 +41,7 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold">Мои сайты</h1>
-              <p className="text-sm text-muted-foreground">
-                {profile?.email || user.email}
-              </p>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
-                <div className="text-sm text-muted-foreground">Кредиты</div>
-                <div className="text-2xl font-bold">{profile?.credits || 0}</div>
-              </div>
-              <Badge variant="outline" className="text-sm">
-                {profile?.tier?.toUpperCase() || 'FREE'}
-              </Badge>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+    <main className="container mx-auto px-4 py-8">
         {/* Create New Site */}
         <div className="mb-8">
           <CreateSiteDialog />
@@ -128,7 +102,6 @@ export default async function DashboardPage() {
             </div>
           </div>
         )}
-      </main>
-    </div>
+    </main>
   );
 }
