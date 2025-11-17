@@ -84,7 +84,9 @@ export class ClaudeService {
       });
 
       // Extract code from response
-      const code = this.extractCode(response.content[0].text);
+      const firstBlock = response.content[0];
+      const text = 'text' in firstBlock ? firstBlock.text : '';
+      const code = this.extractCode(text);
 
       // Calculate cost
       const cost = this.calculateCost(response.usage);
@@ -95,8 +97,8 @@ export class ClaudeService {
           input_tokens: response.usage.input_tokens,
           output_tokens: response.usage.output_tokens,
           cache_creation_input_tokens:
-            response.usage.cache_creation_input_tokens,
-          cache_read_input_tokens: response.usage.cache_read_input_tokens,
+            response.usage.cache_creation_input_tokens ?? undefined,
+          cache_read_input_tokens: response.usage.cache_read_input_tokens ?? undefined,
         },
         model: response.model,
         cost,
@@ -130,7 +132,9 @@ export class ClaudeService {
         ],
       });
 
-      const code = this.extractCode(response.content[0].text);
+      const firstBlock = response.content[0];
+      const text = 'text' in firstBlock ? firstBlock.text : '';
+      const code = this.extractCode(text);
       const cost = this.calculateCost(response.usage);
 
       return {
@@ -139,8 +143,8 @@ export class ClaudeService {
           input_tokens: response.usage.input_tokens,
           output_tokens: response.usage.output_tokens,
           cache_creation_input_tokens:
-            response.usage.cache_creation_input_tokens,
-          cache_read_input_tokens: response.usage.cache_read_input_tokens,
+            response.usage.cache_creation_input_tokens ?? undefined,
+          cache_read_input_tokens: response.usage.cache_read_input_tokens ?? undefined,
         },
         cost,
       };
@@ -185,8 +189,8 @@ export class ClaudeService {
   private calculateCost(usage: {
     input_tokens: number;
     output_tokens: number;
-    cache_creation_input_tokens?: number;
-    cache_read_input_tokens?: number;
+    cache_creation_input_tokens?: number | null;
+    cache_read_input_tokens?: number | null;
   }): number {
     // Claude Sonnet 4 pricing (as of 2024)
     // Input: $3 per million tokens
