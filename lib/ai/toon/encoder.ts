@@ -296,7 +296,7 @@ export class TOONEncoder {
 
     // If no sections found, use recommended sections
     if (sections.length === 0) {
-      const recommended = VALIDATION_RULES.recommendedSections[siteType];
+      const recommended = VALIDATION_RULES.recommendedSections[siteType as keyof typeof VALIDATION_RULES.recommendedSections];
       if (recommended) {
         sections.push(
           ...recommended.map((type) => ({
@@ -307,7 +307,7 @@ export class TOONEncoder {
     }
 
     // Ensure required sections are present
-    const required = VALIDATION_RULES.requiredSections[siteType];
+    const required = VALIDATION_RULES.requiredSections[siteType as keyof typeof VALIDATION_RULES.requiredSections];
     if (required) {
       for (const reqType of required) {
         if (!sections.some((s) => s.type === reqType)) {
@@ -327,7 +327,7 @@ export class TOONEncoder {
     if (spec.sections.length < VALIDATION_RULES.minSections) {
       warnings.push('Too few sections, adding recommended sections');
       const recommended =
-        VALIDATION_RULES.recommendedSections[spec.siteType] || ['h', 'f', 'ct'];
+        VALIDATION_RULES.recommendedSections[spec.siteType as keyof typeof VALIDATION_RULES.recommendedSections] || ['h', 'f', 'ct'];
       spec.sections = recommended.map((type) => ({
         type: type as ComponentType,
       }));
@@ -490,7 +490,7 @@ export class TOONEncoder {
     }
 
     // Reduce confidence if using fallback sections
-    const recommended = VALIDATION_RULES.recommendedSections[spec.siteType];
+    const recommended = VALIDATION_RULES.recommendedSections[spec.siteType as keyof typeof VALIDATION_RULES.recommendedSections];
     if (
       recommended &&
       spec.sections.every((s) => recommended.includes(s.type))
