@@ -147,8 +147,8 @@ export async function POST(req: NextRequest): Promise<NextResponse<IterateRespon
 
     // Deduct credit
     await supabase.rpc('deduct_credit', {
-      user_id: user.id,
-      amount: 1,
+      p_user_id: user.id,
+      p_amount: 1,
     });
 
     // Log iteration
