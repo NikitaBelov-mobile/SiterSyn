@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Sparkles, LogIn, ArrowLeft } from 'lucide-react'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -59,18 +60,40 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
-          <CardDescription className="text-center">
-            Sign in to your account to continue
+    <div className="min-h-screen gradient-bg grid-pattern relative overflow-hidden flex items-center justify-center px-4">
+      {/* Background glow effect */}
+      <div className="absolute inset-0 radial-glow pointer-events-none" />
+
+      {/* Back button */}
+      <Link
+        href="/"
+        className="absolute top-4 left-4 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors glass px-4 py-2 rounded-full"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back to home
+      </Link>
+
+      {/* Login card */}
+      <Card className="w-full max-w-md glass border-white/10 relative z-10">
+        <CardHeader className="space-y-1 text-center pb-4">
+          <div className="flex justify-center mb-4">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center glow">
+              <Sparkles className="w-6 h-6" />
+            </div>
+          </div>
+          <CardTitle className="text-2xl font-bold">
+            Welcome back
+          </CardTitle>
+          <CardDescription>
+            Sign in to your account to continue creating amazing websites
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-sm font-medium">
+                Email
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -79,10 +102,21 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={loading}
+                className="glass border-white/10 bg-white/5 focus:bg-white/10 transition-all"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password" className="text-sm font-medium">
+                  Password
+                </Label>
+                <Link
+                  href="/forgot-password"
+                  className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <Input
                 id="password"
                 type="password"
@@ -91,33 +125,50 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={loading}
+                className="glass border-white/10 bg-white/5 focus:bg-white/10 transition-all"
               />
             </div>
 
             {error && (
-              <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+              <div className="p-3 text-sm text-red-400 glass border border-red-500/20 rounded-lg bg-red-500/10">
                 {error}
               </div>
             )}
 
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Signing in...' : 'Sign in'}
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 border-0 glow-hover"
+              disabled={loading}
+            >
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                  Signing in...
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <LogIn className="w-4 h-4" />
+                  Sign in
+                </div>
+              )}
             </Button>
           </form>
 
-          <div className="relative my-4">
+          <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
+              <div className="w-full border-t border-white/10" />
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or continue with</span>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="px-2 glass text-muted-foreground">
+                Or continue with
+              </span>
             </div>
           </div>
 
           <Button
             type="button"
             variant="outline"
-            className="w-full"
+            className="w-full glass border-white/10 hover:bg-white/5"
             onClick={handleGoogleLogin}
             disabled={loading}
           >
@@ -139,21 +190,16 @@ export default function LoginPage() {
                 fill="#EA4335"
               />
             </svg>
-            Google
+            Continue with Google
           </Button>
         </CardContent>
-        <CardFooter className="flex flex-col space-y-2">
-          <div className="text-sm text-center text-gray-600">
-            <Link href="/forgot-password" className="text-blue-600 hover:underline">
-              Forgot your password?
-            </Link>
-          </div>
-          <div className="text-sm text-center text-gray-600">
+        <CardFooter className="flex justify-center border-t border-white/10 pt-6">
+          <p className="text-sm text-muted-foreground">
             Don't have an account?{' '}
-            <Link href="/signup" className="text-blue-600 hover:underline">
+            <Link href="/signup" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
               Sign up
             </Link>
-          </div>
+          </p>
         </CardFooter>
       </Card>
     </div>
