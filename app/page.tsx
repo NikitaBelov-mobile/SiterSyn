@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { UserNav } from '@/components/UserNav'
 import { ArrowRight, Check } from 'lucide-react'
 import Image from 'next/image'
+import FeaturesCarousel from '@/components/FeaturesCarousel'
 
 export default async function HomePage() {
   const supabase = createClient()
@@ -121,10 +122,13 @@ export default async function HomePage() {
         </section>
 
         {/* Features Section */}
-        <section className="section-padding bg-muted/20">
+        <section className="section-padding bg-muted/20 group">
           <div className="section-content">
             {/* Section header */}
             <div className="text-center mb-16 max-w-3xl mx-auto">
+              <div className="badge mb-6 mx-auto">
+                <span>Наши преимущества</span>
+              </div>
               <h2 className="heading-lg mb-4">
                 Почему <span className="accent-text">SiterSyn</span>?
               </h2>
@@ -133,59 +137,8 @@ export default async function HomePage() {
               </p>
             </div>
 
-            {/* Feature grid */}
-            <div className="feature-grid">
-              {/* Feature 1 */}
-              <div className="cinematic-card fade-in-up fade-in-delay-1">
-                <div className="image-container aspect-video mb-6">
-                  <Image
-                    src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2670&auto=format&fit=crop"
-                    alt="Team working together efficiently"
-                    fill
-                    className="img-cinematic"
-                  />
-                  <div className="image-overlay" />
-                </div>
-                <h3 className="text-2xl font-bold mb-3">Мгновенно</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  От промпта до готового сайта за 5 минут. Никаких ожиданий. Просто результат.
-                </p>
-              </div>
-
-              {/* Feature 2 */}
-              <div className="cinematic-card fade-in-up fade-in-delay-2">
-                <div className="image-container aspect-video mb-6">
-                  <Image
-                    src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2574&auto=format&fit=crop"
-                    alt="Developer coding with AI assistance"
-                    fill
-                    className="img-cinematic"
-                  />
-                  <div className="image-overlay" />
-                </div>
-                <h3 className="text-2xl font-bold mb-3">AI-Powered</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Claude Sonnet 4 с TOON-оптимизацией. Профессиональный код, красивый дизайн.
-                </p>
-              </div>
-
-              {/* Feature 3 */}
-              <div className="cinematic-card fade-in-up fade-in-delay-3">
-                <div className="image-container aspect-video mb-6">
-                  <Image
-                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2671&auto=format&fit=crop"
-                    alt="Professional team reviewing code"
-                    fill
-                    className="img-cinematic"
-                  />
-                  <div className="image-overlay" />
-                </div>
-                <h3 className="text-2xl font-bold mb-3">Полный контроль</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Экспортируйте чистый React код. Владейте всем на 100%. Никаких ограничений.
-                </p>
-              </div>
-            </div>
+            {/* Features Carousel */}
+            <FeaturesCarousel />
           </div>
         </section>
 
