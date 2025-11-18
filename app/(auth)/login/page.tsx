@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { ArrowLeft, Loader2 } from 'lucide-react'
+import { ArrowLeft, Loader2, Sparkles } from 'lucide-react'
 import { CustomIcons } from '@/components/CustomIcons'
 
 export default function LoginPage() {
@@ -61,29 +61,36 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background dark flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-background gradient-bg flex items-center justify-center px-4 py-12">
+      {/* Animated mesh gradient */}
+      <div className="mesh-gradient fixed inset-0 z-0" />
+
+      {/* Floating orbs */}
+      <div className="glow-orb w-96 h-96 bg-purple-500 top-10 -left-20 float-slow fixed z-0" />
+      <div className="glow-orb w-80 h-80 bg-blue-500 bottom-10 -right-20 float-medium fixed z-0" />
+
       {/* Back button */}
       <Link
         href="/"
-        className="absolute top-6 left-6 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-smooth"
+        className="absolute top-6 left-6 z-20 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-all duration-300 group"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
         <span className="font-medium">Back to home</span>
       </Link>
 
       {/* Login card */}
-      <div className="w-full max-w-md">
-        <Card className="border-border shadow-medium">
+      <div className="w-full max-w-md relative z-10 fade-in-up">
+        <Card className="glass-card border-border/50">
           <CardHeader className="space-y-4 text-center pb-8">
             <div className="flex justify-center mb-2">
-              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                <CustomIcons.Sparkle className="w-7 h-7 text-primary" />
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/30">
+                <CustomIcons.Sparkle className="w-8 h-8 text-white" />
               </div>
             </div>
-            <CardTitle className="text-3xl font-bold tracking-tight">
+            <CardTitle className="text-3xl md:text-4xl font-bold tracking-tight">
               Welcome back
             </CardTitle>
-            <CardDescription className="text-base">
+            <CardDescription className="text-base text-muted-foreground">
               Sign in to your account to continue creating amazing websites
             </CardDescription>
           </CardHeader>
@@ -101,7 +108,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={loading}
-                  className="h-11 transition-smooth"
+                  className="h-12 bg-background/50 border-border/50 focus:border-purple-500/50 transition-all duration-300"
                 />
               </div>
               <div className="space-y-2">
@@ -111,7 +118,7 @@ export default function LoginPage() {
                   </Label>
                   <Link
                     href="/forgot-password"
-                    className="text-xs text-primary hover:underline transition-smooth"
+                    className="text-xs text-purple-400 hover:text-purple-300 hover:underline transition-colors"
                   >
                     Forgot password?
                   </Link>
@@ -124,38 +131,41 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={loading}
-                  className="h-11 transition-smooth"
+                  className="h-12 bg-background/50 border-border/50 focus:border-purple-500/50 transition-all duration-300"
                 />
               </div>
 
               {error && (
-                <div className="p-4 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-lg">
+                <div className="p-4 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-lg backdrop-blur-sm">
                   {error}
                 </div>
               )}
 
               <Button
                 type="submit"
-                className="w-full h-11 btn-primary"
+                className="w-full h-12 btn-modern shimmer"
                 disabled={loading}
               >
                 {loading ? (
                   <div className="flex items-center gap-2">
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <Loader2 className="w-5 h-5 animate-spin" />
                     Signing in...
                   </div>
                 ) : (
-                  'Sign in'
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="w-5 h-5" />
+                    Sign in
+                  </div>
                 )}
               </Button>
             </form>
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-border" />
+                <div className="w-full border-t border-border/50" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="px-3 bg-card text-muted-foreground font-medium">
+                <span className="px-3 bg-card/50 backdrop-blur-sm text-muted-foreground font-medium">
                   Or continue with
                 </span>
               </div>
@@ -164,7 +174,7 @@ export default function LoginPage() {
             <Button
               type="button"
               variant="outline"
-              className="w-full h-11 transition-smooth"
+              className="w-full h-12 bg-background/50 border-border/50 hover:bg-purple-500/10 hover:border-purple-500/30 transition-all duration-300"
               onClick={handleGoogleLogin}
               disabled={loading}
             >
@@ -189,10 +199,10 @@ export default function LoginPage() {
               Continue with Google
             </Button>
           </CardContent>
-          <CardFooter className="flex justify-center border-t border-border pt-6 pb-8">
+          <CardFooter className="flex justify-center border-t border-border/50 pt-6 pb-8">
             <p className="text-sm text-muted-foreground">
               Don't have an account?{' '}
-              <Link href="/signup" className="text-primary hover:underline font-medium transition-smooth">
+              <Link href="/signup" className="text-purple-400 hover:text-purple-300 hover:underline font-medium transition-colors">
                 Sign up
               </Link>
             </p>
