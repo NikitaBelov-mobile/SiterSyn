@@ -120,16 +120,16 @@ export default function FeaturesCarousel() {
 
   return (
     <div
-      className="relative w-full overflow-hidden"
+      className="relative w-full overflow-hidden px-4 md:px-6 lg:px-8"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Carousel Container */}
-      <div className="relative">
+      <div className="relative max-w-[1600px] mx-auto">
         {/* Navigation Buttons */}
         <button
           onClick={prevSlide}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-card/95 border-2 border-primary/20 shadow-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-500 flex items-center justify-center -translate-x-4 md:-translate-x-6 hover:scale-110 backdrop-blur-md"
+          className="absolute -left-2 md:left-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-card/95 border-2 border-primary/20 shadow-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-500 flex items-center justify-center hover:scale-110 backdrop-blur-md"
           aria-label="Previous slide"
         >
           <ChevronLeft className="w-6 h-6 md:w-7 md:h-7" />
@@ -137,27 +137,28 @@ export default function FeaturesCarousel() {
 
         <button
           onClick={nextSlide}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-card/95 border-2 border-primary/20 shadow-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-500 flex items-center justify-center translate-x-4 md:translate-x-6 hover:scale-110 backdrop-blur-md"
+          className="absolute -right-2 md:right-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-card/95 border-2 border-primary/20 shadow-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-500 flex items-center justify-center hover:scale-110 backdrop-blur-md"
           aria-label="Next slide"
         >
           <ChevronRight className="w-6 h-6 md:w-7 md:h-7" />
         </button>
 
         {/* Slides Track */}
-        <div className="overflow-hidden px-2">
+        <div className="overflow-hidden px-12 md:px-16">
           <div
-            className="flex transition-transform duration-700 ease-out gap-6"
+            className="flex transition-transform duration-700 ease-out gap-4 md:gap-6"
             style={{
               transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)`
             }}
           >
             {features.map((feature, index) => {
               const Icon = feature.icon
+              const gapSize = itemsPerView === 1 ? 1 : 1.5 // 1rem for mobile, 1.5rem for desktop
               return (
                 <div
                   key={index}
                   className="flex-shrink-0 group"
-                  style={{ width: `calc(${100 / itemsPerView}% - ${(itemsPerView - 1) * 1.5}rem / ${itemsPerView})` }}
+                  style={{ width: `calc(${100 / itemsPerView}% - ${(itemsPerView - 1) * gapSize}rem / ${itemsPerView})` }}
                 >
                   <div className="cinematic-card h-full hover:scale-[1.02] transition-all duration-500">
                     {/* Image with gradient overlay */}

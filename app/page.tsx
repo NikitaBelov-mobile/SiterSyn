@@ -123,8 +123,8 @@ export default async function HomePage() {
 
         {/* Features Section */}
         <section className="section-padding bg-muted/20 group">
+          {/* Section header */}
           <div className="section-content">
-            {/* Section header */}
             <div className="text-center mb-16 max-w-3xl mx-auto">
               <div className="badge mb-6 mx-auto">
                 <span>Наши преимущества</span>
@@ -136,8 +136,10 @@ export default async function HomePage() {
                 Современная платформа с уникальными технологиями оптимизации
               </p>
             </div>
+          </div>
 
-            {/* Features Carousel */}
+          {/* Features Carousel - Full Width */}
+          <div className="w-full">
             <FeaturesCarousel />
           </div>
         </section>
