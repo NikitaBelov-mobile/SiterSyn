@@ -2,333 +2,403 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/server'
 import { UserNav } from '@/components/UserNav'
-import { ArrowRight, Sparkles, Zap, Check } from 'lucide-react'
-import { CustomIcons } from '@/components/CustomIcons'
+import { ArrowRight, Check } from 'lucide-react'
+import Image from 'next/image'
 
 export default async function HomePage() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   return (
-    <div className="min-h-screen bg-background gradient-bg">
-      {/* Animated mesh gradient */}
-      <div className="mesh-gradient fixed inset-0 z-0" />
-
-      {/* Content */}
-      <div className="relative z-10">
-        {/* Header */}
-        <header className="border-b border-border/50 bg-background/50 backdrop-blur-xl sticky top-0 z-50">
-          <div className="section-content">
-            <div className="flex items-center justify-between h-16">
-              <Link href="/" className="flex items-center gap-3 group">
-                <div className="w-8 h-8 text-purple-400">
-                  <CustomIcons.Sparkle className="w-full h-full transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
-                </div>
-                <span className="text-xl font-bold tracking-tight">
-                  SiterSyn
-                </span>
-              </Link>
-              <nav className="flex items-center gap-3">
-                {user ? (
-                  <>
-                    <Button variant="ghost" asChild>
-                      <Link href="/dashboard">Dashboard</Link>
-                    </Button>
-                    <UserNav />
-                  </>
-                ) : (
-                  <>
-                    <Button variant="ghost" asChild>
-                      <Link href="/login">Sign in</Link>
-                    </Button>
-                    <Button asChild className="btn-modern">
-                      <Link href="/signup" className="flex items-center gap-2">
-                        Get Started
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    </Button>
-                  </>
-                )}
-              </nav>
-            </div>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-border bg-background/95 backdrop-blur-sm sticky top-0 z-50">
+        <div className="section-content">
+          <div className="flex items-center justify-between h-16">
+            <Link href="/" className="text-2xl font-bold tracking-tight">
+              SiterSyn
+            </Link>
+            <nav className="flex items-center gap-3">
+              {user ? (
+                <>
+                  <Button variant="ghost" asChild>
+                    <Link href="/dashboard">Dashboard</Link>
+                  </Button>
+                  <UserNav />
+                </>
+              ) : (
+                <>
+                  <Button variant="ghost" asChild>
+                    <Link href="/login">Sign in</Link>
+                  </Button>
+                  <Button asChild className="btn-cinematic">
+                    <Link href="/signup">
+                      Get Started
+                    </Link>
+                  </Button>
+                </>
+              )}
+            </nav>
           </div>
-        </header>
+        </div>
+      </header>
 
-        {/* Hero Section */}
-        <main>
-          <section className="section-padding relative overflow-hidden">
-            {/* Floating orbs */}
-            <div className="glow-orb w-96 h-96 bg-purple-500 top-20 -left-20 float-slow" />
-            <div className="glow-orb w-80 h-80 bg-blue-500 bottom-20 -right-20 float-medium" />
+      {/* Hero Section */}
+      <main>
+        <section className="hero-section">
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2670&auto=format&fit=crop"
+              alt="Team collaborating on a project"
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/90 to-black/60" />
+          </div>
 
-            <div className="section-content relative">
-              <div className="max-w-5xl mx-auto text-center">
-                {/* Badge */}
-                <div className="mb-8 fade-in">
-                  <div className="badge-pulse inline-flex">
-                    <Sparkles className="w-4 h-4 text-purple-400" />
-                    <span className="text-sm font-medium">Powered by Claude Sonnet 4</span>
-                  </div>
-                </div>
-
-                {/* Main heading */}
-                <div className="mb-8 fade-in-up fade-in-delay-1">
-                  <h1 className="heading-xl mb-6">
-                    Создавайте сайты{' '}
-                    <span className="gradient-text">за 5 минут</span>
-                  </h1>
-                  <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                    AI-генератор профессиональных сайтов. От текстового описания до готового React компонента с красивым дизайном.
-                  </p>
-                </div>
-
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20 fade-in-up fade-in-delay-2">
-                  <Button
-                    asChild
-                    size="lg"
-                    className="btn-modern text-base px-10 py-6 text-lg shimmer"
-                  >
-                    <Link href={user ? '/dashboard' : '/signup'} className="flex items-center gap-2">
-                      <Zap className="w-5 h-5" />
-                      {user ? 'Go to Dashboard' : 'Начать бесплатно'}
-                    </Link>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    asChild
-                    className="px-10 py-6 text-lg border-2 border-purple-500/30 hover:bg-purple-500/10 hover:border-purple-500/50 transition-all duration-300"
-                  >
-                    <Link href="/pricing" className="flex items-center gap-2">
-                      Посмотреть тарифы
-                      <ArrowRight className="w-5 h-5" />
-                    </Link>
-                  </Button>
-                </div>
-
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto fade-in-up fade-in-delay-3">
-                  <div className="glass-card text-center">
-                    <div className="text-5xl md:text-6xl font-bold mb-2 gradient-text">3</div>
-                    <div className="text-sm text-muted-foreground uppercase tracking-wide font-medium">Free Credits</div>
-                  </div>
-                  <div className="glass-card text-center">
-                    <div className="text-5xl md:text-6xl font-bold mb-2 gradient-text">5min</div>
-                    <div className="text-sm text-muted-foreground uppercase tracking-wide font-medium">Generation</div>
-                  </div>
-                  <div className="glass-card text-center">
-                    <div className="text-5xl md:text-6xl font-bold mb-2 gradient-text">67%</div>
-                    <div className="text-sm text-muted-foreground uppercase tracking-wide font-medium">Cost Cut</div>
-                  </div>
+          <div className="section-content relative z-10">
+            <div className="max-w-3xl">
+              {/* Badge */}
+              <div className="mb-8 fade-in">
+                <div className="badge">
+                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  <span>Powered by Claude Sonnet 4</span>
                 </div>
               </div>
-            </div>
-          </section>
 
-          {/* Features Section */}
-          <section className="section-padding relative">
-            <div className="section-content">
-              {/* Section header */}
-              <div className="text-center mb-16 max-w-3xl mx-auto fade-in">
-                <h2 className="heading-lg mb-6">
-                  Почему <span className="gradient-text">SiterSyn</span>?
-                </h2>
-                <p className="text-xl text-muted-foreground">
-                  Современная платформа с уникальными технологиями оптимизации
+              {/* Main heading */}
+              <div className="mb-8 fade-in-up fade-in-delay-1">
+                <h1 className="heading-xl mb-6">
+                  Создавайте сайты{' '}
+                  <span className="accent-text">за 5 минут</span>
+                </h1>
+                <p className="body-lg text-muted-foreground max-w-2xl">
+                  AI-генератор профессиональных сайтов. От текстового описания до готового React компонента с красивым дизайном.
                 </p>
               </div>
 
-              {/* Feature grid */}
-              <div className="bento-grid max-w-6xl mx-auto">
-                {/* Feature 1 */}
-                <div className="feature-card fade-in-up fade-in-delay-1">
-                  <div className="w-14 h-14 mb-6 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center">
-                    <CustomIcons.Lightning className="w-7 h-7 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-3">Мгновенно</h3>
-                  <p className="text-muted-foreground leading-relaxed text-lg">
-                    От промпта до готового сайта за 5 минут. Никаких ожиданий. Просто результат.
-                  </p>
-                </div>
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-16 fade-in-up fade-in-delay-2">
+                <Button
+                  asChild
+                  size="lg"
+                  className="btn-cinematic text-base"
+                >
+                  <Link href={user ? '/dashboard' : '/signup'}>
+                    {user ? 'Go to Dashboard' : 'Начать бесплатно'}
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  asChild
+                  className="btn-secondary text-base"
+                >
+                  <Link href="/pricing">
+                    Посмотреть тарифы
+                  </Link>
+                </Button>
+              </div>
 
-                {/* Feature 2 */}
-                <div className="feature-card fade-in-up fade-in-delay-2">
-                  <div className="w-14 h-14 mb-6 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center">
-                    <CustomIcons.Brain className="w-7 h-7 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-3">AI-Powered</h3>
-                  <p className="text-muted-foreground leading-relaxed text-lg">
-                    Claude Sonnet 4 с TOON-оптимизацией. Профессиональный код, красивый дизайн.
-                  </p>
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-6 max-w-2xl fade-in-up fade-in-delay-3">
+                <div>
+                  <div className="text-4xl md:text-5xl font-bold mb-1 text-primary">3</div>
+                  <div className="text-sm text-muted-foreground">Free Credits</div>
                 </div>
-
-                {/* Feature 3 */}
-                <div className="feature-card fade-in-up fade-in-delay-3">
-                  <div className="w-14 h-14 mb-6 bg-gradient-to-br from-cyan-500 to-purple-500 rounded-2xl flex items-center justify-center">
-                    <CustomIcons.Code className="w-7 h-7 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-3">Полный контроль</h3>
-                  <p className="text-muted-foreground leading-relaxed text-lg">
-                    Экспортируйте чистый React код. Владейте всем на 100%. Никаких ограничений.
-                  </p>
+                <div>
+                  <div className="text-4xl md:text-5xl font-bold mb-1 text-primary">5min</div>
+                  <div className="text-sm text-muted-foreground">Generation</div>
+                </div>
+                <div>
+                  <div className="text-4xl md:text-5xl font-bold mb-1 text-primary">67%</div>
+                  <div className="text-sm text-muted-foreground">Cost Cut</div>
                 </div>
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          {/* TOON Technology Highlight */}
-          <section className="section-padding relative">
-            <div className="section-content">
-              <div className="max-w-6xl mx-auto">
-                <div className="glass-card shimmer">
-                  <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                    <div className="flex-shrink-0">
-                      <div className="w-24 h-24 bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 rounded-3xl flex items-center justify-center">
-                        <CustomIcons.Rocket className="w-14 h-14 text-white" />
+        {/* Features Section */}
+        <section className="section-padding bg-muted/20">
+          <div className="section-content">
+            {/* Section header */}
+            <div className="text-center mb-16 max-w-3xl mx-auto">
+              <h2 className="heading-lg mb-4">
+                Почему <span className="accent-text">SiterSyn</span>?
+              </h2>
+              <p className="body-lg text-muted-foreground">
+                Современная платформа с уникальными технологиями оптимизации
+              </p>
+            </div>
+
+            {/* Feature grid */}
+            <div className="feature-grid">
+              {/* Feature 1 */}
+              <div className="cinematic-card fade-in-up fade-in-delay-1">
+                <div className="image-container aspect-video mb-6">
+                  <Image
+                    src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2670&auto=format&fit=crop"
+                    alt="Team working together efficiently"
+                    fill
+                    className="img-cinematic"
+                  />
+                  <div className="image-overlay" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Мгновенно</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  От промпта до готового сайта за 5 минут. Никаких ожиданий. Просто результат.
+                </p>
+              </div>
+
+              {/* Feature 2 */}
+              <div className="cinematic-card fade-in-up fade-in-delay-2">
+                <div className="image-container aspect-video mb-6">
+                  <Image
+                    src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2574&auto=format&fit=crop"
+                    alt="Developer coding with AI assistance"
+                    fill
+                    className="img-cinematic"
+                  />
+                  <div className="image-overlay" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">AI-Powered</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Claude Sonnet 4 с TOON-оптимизацией. Профессиональный код, красивый дизайн.
+                </p>
+              </div>
+
+              {/* Feature 3 */}
+              <div className="cinematic-card fade-in-up fade-in-delay-3">
+                <div className="image-container aspect-video mb-6">
+                  <Image
+                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2671&auto=format&fit=crop"
+                    alt="Professional team reviewing code"
+                    fill
+                    className="img-cinematic"
+                  />
+                  <div className="image-overlay" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Полный контроль</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Экспортируйте чистый React код. Владейте всем на 100%. Никаких ограничений.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* TOON Technology Section */}
+        <section className="section-padding relative overflow-hidden">
+          <div className="absolute inset-0 z-0 opacity-20">
+            <Image
+              src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2672&auto=format&fit=crop"
+              alt="Technology background"
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          <div className="section-content relative z-10">
+            <div className="max-w-4xl mx-auto">
+              <div className="cinematic-card">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                  <div>
+                    <div className="badge mb-6">
+                      <span>Proprietary Technology</span>
+                    </div>
+                    <h3 className="heading-md mb-4">
+                      <span className="accent-text">TOON</span> Encoding Technology
+                    </h3>
+                    <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                      Уникальная система сжатия промптов, которая снижает стоимость генерации на{' '}
+                      <span className="accent-text">67%</span> и ускоряет процесс на{' '}
+                      <span className="accent-text">40%</span>.
+                    </p>
+                    <ul className="space-y-3">
+                      <li className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                        <span className="text-muted-foreground">Больше генераций за те же деньги</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                        <span className="text-muted-foreground">Быстрее получайте результаты</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                        <span className="text-muted-foreground">Меньше токенов — больше возможностей</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="image-container aspect-square">
+                    <Image
+                      src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?q=80&w=2448&auto=format&fit=crop"
+                      alt="Advanced technology visualization"
+                      fill
+                      className="img-cinematic"
+                    />
+                    <div className="image-overlay" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Process Section */}
+        <section className="section-padding bg-muted/20">
+          <div className="section-content">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="heading-lg mb-4">Как это работает</h2>
+                <p className="body-lg text-muted-foreground">
+                  Три простых шага до вашего готового сайта
+                </p>
+              </div>
+
+              <div className="space-y-12">
+                {/* Step 1 */}
+                <div className="cinematic-card fade-in-up fade-in-delay-1">
+                  <div className="grid md:grid-cols-2 gap-8 items-center">
+                    <div className="order-2 md:order-1">
+                      <div className="badge mb-4">
+                        <span>Шаг 1</span>
                       </div>
-                    </div>
-                    <div className="flex-1 text-center md:text-left">
-                      <h3 className="text-3xl md:text-4xl font-bold mb-4">
-                        <span className="gradient-text">TOON</span> Encoding Technology
-                      </h3>
-                      <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
-                        Уникальная система сжатия промптов, которая снижает стоимость генерации на{' '}
-                        <span className="font-bold text-purple-400">67%</span> и ускоряет процесс на{' '}
-                        <span className="font-bold text-blue-400">40%</span>. Больше генераций за те же деньги.
-                      </p>
-                    </div>
-                    <div>
-                      <Button asChild className="btn-modern">
-                        <Link href="/pricing">
-                          Узнать больше
-                        </Link>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* How it Works */}
-          <section className="section-padding relative">
-            <div className="section-content">
-              <div className="max-w-4xl mx-auto">
-                <div className="text-center mb-16 fade-in">
-                  <h2 className="heading-lg mb-4">Как это работает</h2>
-                  <p className="text-xl text-muted-foreground">
-                    Три простых шага до вашего готового сайта
-                  </p>
-                </div>
-
-                <div className="space-y-8">
-                  {/* Step 1 */}
-                  <div className="flex gap-6 fade-in-up fade-in-delay-1">
-                    <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center font-bold text-xl text-white shadow-lg shadow-purple-500/30">
-                      1
-                    </div>
-                    <div className="flex-1">
                       <h3 className="text-2xl font-bold mb-3">Опишите ваш сайт</h3>
-                      <p className="text-muted-foreground leading-relaxed text-lg">
+                      <p className="text-muted-foreground leading-relaxed">
                         Просто напишите, что вы хотите создать. AI поймет ваши требования и создаст профессиональный дизайн.
                       </p>
                     </div>
-                  </div>
-
-                  {/* Step 2 */}
-                  <div className="flex gap-6 fade-in-up fade-in-delay-2">
-                    <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center font-bold text-xl text-white shadow-lg shadow-blue-500/30">
-                      2
+                    <div className="order-1 md:order-2 image-container aspect-video">
+                      <Image
+                        src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2670&auto=format&fit=crop"
+                        alt="Team brainstorming ideas"
+                        fill
+                        className="img-cinematic"
+                      />
+                      <div className="image-overlay" />
                     </div>
-                    <div className="flex-1">
+                  </div>
+                </div>
+
+                {/* Step 2 */}
+                <div className="cinematic-card fade-in-up fade-in-delay-2">
+                  <div className="grid md:grid-cols-2 gap-8 items-center">
+                    <div className="image-container aspect-video">
+                      <Image
+                        src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2672&auto=format&fit=crop"
+                        alt="Developer coding"
+                        fill
+                        className="img-cinematic"
+                      />
+                      <div className="image-overlay" />
+                    </div>
+                    <div>
+                      <div className="badge mb-4">
+                        <span>Шаг 2</span>
+                      </div>
                       <h3 className="text-2xl font-bold mb-3">Получите готовый код</h3>
-                      <p className="text-muted-foreground leading-relaxed text-lg">
+                      <p className="text-muted-foreground leading-relaxed">
                         За 5 минут AI сгенерирует чистый React компонент с современным дизайном и адаптивной версткой.
                       </p>
                     </div>
                   </div>
+                </div>
 
-                  {/* Step 3 */}
-                  <div className="flex gap-6 fade-in-up fade-in-delay-3">
-                    <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-cyan-500 to-purple-500 rounded-2xl flex items-center justify-center font-bold text-xl text-white shadow-lg shadow-cyan-500/30">
-                      3
-                    </div>
-                    <div className="flex-1">
+                {/* Step 3 */}
+                <div className="cinematic-card fade-in-up fade-in-delay-3">
+                  <div className="grid md:grid-cols-2 gap-8 items-center">
+                    <div className="order-2 md:order-1">
+                      <div className="badge mb-4">
+                        <span>Шаг 3</span>
+                      </div>
                       <h3 className="text-2xl font-bold mb-3">Экспортируйте и используйте</h3>
-                      <p className="text-muted-foreground leading-relaxed text-lg">
+                      <p className="text-muted-foreground leading-relaxed">
                         Скачайте код и интегрируйте в ваш проект. Полный контроль, никаких зависимостей от платформы.
                       </p>
                     </div>
+                    <div className="order-1 md:order-2 image-container aspect-video">
+                      <Image
+                        src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2670&auto=format&fit=crop"
+                        alt="Professional presenting results"
+                        fill
+                        className="img-cinematic"
+                      />
+                      <div className="image-overlay" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </section>
-
-          {/* CTA Section */}
-          <section className="section-padding relative">
-            <div className="section-content">
-              <div className="max-w-4xl mx-auto text-center">
-                <div className="glass-card shimmer">
-                  <Sparkles className="w-16 h-16 mx-auto mb-6 text-purple-400" />
-                  <h2 className="heading-lg mb-4">Готовы начать?</h2>
-                  <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-                    Получите 3 бесплатных кредита и создайте ваш первый сайт прямо сейчас
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button
-                      asChild
-                      size="lg"
-                      className="btn-modern text-base px-10 py-6"
-                    >
-                      <Link href={user ? '/dashboard' : '/signup'} className="flex items-center gap-2">
-                        <Zap className="w-5 h-5" />
-                        {user ? 'Go to Dashboard' : 'Начать бесплатно'}
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      asChild
-                      className="px-10 py-6 text-base border-2 border-purple-500/30 hover:bg-purple-500/10 hover:border-purple-500/50 transition-all duration-300"
-                    >
-                      <Link href="/pricing">
-                        Посмотреть тарифы
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </main>
-
-        {/* Footer */}
-        <footer className="border-t border-border/50 py-12 bg-background/30 backdrop-blur-sm">
-          <div className="section-content">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-center gap-3">
-                <CustomIcons.Sparkle className="w-5 h-5 text-purple-400" />
-                <span className="text-sm text-muted-foreground">
-                  Made with AI by <span className="font-semibold text-foreground">SiterSyn</span>
-                </span>
-              </div>
-              <div className="flex items-center gap-8 text-sm text-muted-foreground">
-                <Link href="/pricing" className="hover:text-purple-400 transition-colors">
-                  Pricing
-                </Link>
-                <Link href="/dashboard" className="hover:text-purple-400 transition-colors">
-                  Dashboard
-                </Link>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors">
-                  GitHub
-                </a>
               </div>
             </div>
           </div>
-        </footer>
-      </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="section-padding relative overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=2574&auto=format&fit=crop"
+              alt="Team celebrating success"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-black/80" />
+          </div>
+
+          <div className="section-content relative z-10">
+            <div className="max-w-3xl mx-auto text-center">
+              <h2 className="heading-lg mb-4">Готовы начать?</h2>
+              <p className="body-lg text-muted-foreground mb-10">
+                Получите 3 бесплатных кредита и создайте ваш первый сайт прямо сейчас
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button
+                  asChild
+                  size="lg"
+                  className="btn-cinematic text-base px-10"
+                >
+                  <Link href={user ? '/dashboard' : '/signup'}>
+                    {user ? 'Go to Dashboard' : 'Начать бесплатно'}
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  asChild
+                  className="btn-secondary text-base px-10"
+                >
+                  <Link href="/pricing">
+                    Посмотреть тарифы
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-border py-12 bg-card/50">
+        <div className="section-content">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-sm text-muted-foreground">
+              Made with AI by <span className="font-semibold text-foreground">SiterSyn</span>
+            </div>
+            <div className="flex items-center gap-8 text-sm text-muted-foreground">
+              <Link href="/pricing" className="hover:text-primary transition-colors">
+                Pricing
+              </Link>
+              <Link href="/dashboard" className="hover:text-primary transition-colors">
+                Dashboard
+              </Link>
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
