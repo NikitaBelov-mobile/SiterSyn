@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/server'
 import { UserNav } from '@/components/UserNav'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Check } from 'lucide-react'
 import { CustomIcons } from '@/components/CustomIcons'
 
 export default async function HomePage() {
@@ -10,40 +10,33 @@ export default async function HomePage() {
   const { data: { user } } = await supabase.auth.getUser()
 
   return (
-    <div className="min-h-screen gradient-bg grid-pattern relative overflow-hidden">
-      {/* Animated radial glow */}
-      <div className="absolute inset-0 radial-glow pointer-events-none" />
-
-      {/* Floating orbs */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-float" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-float-delayed" />
-
+    <div className="min-h-screen bg-background dark">
       {/* Header */}
-      <header className="relative glass border-b border-white/10 sticky top-0 z-50 backdrop-blur-3xl">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold flex items-center gap-3 group">
-              <div className="w-10 h-10 relative">
-                <CustomIcons.Sparkle className="w-full h-full group-hover:scale-110 transition-transform duration-300" />
+      <header className="border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="section-content">
+          <div className="flex items-center justify-between h-16">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="w-8 h-8">
+                <CustomIcons.Sparkle className="w-full h-full transition-transform duration-300 group-hover:scale-110" />
               </div>
-              <span className="gradient-text text-2xl font-black tracking-tight">
+              <span className="text-xl font-bold tracking-tight">
                 SiterSyn
               </span>
             </Link>
-            <nav className="flex items-center gap-4">
+            <nav className="flex items-center gap-3">
               {user ? (
                 <>
-                  <Button variant="ghost" asChild className="hover:bg-white/5 transition-all duration-300">
+                  <Button variant="ghost" asChild className="transition-smooth">
                     <Link href="/dashboard">Dashboard</Link>
                   </Button>
                   <UserNav />
                 </>
               ) : (
                 <>
-                  <Button variant="ghost" asChild className="hover:bg-white/5 transition-all duration-300">
+                  <Button variant="ghost" asChild className="transition-smooth">
                     <Link href="/login">Sign in</Link>
                   </Button>
-                  <Button asChild className="glow-hover bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:to-pink-600 border-0 font-semibold">
+                  <Button asChild className="btn-primary">
                     <Link href="/signup" className="flex items-center gap-2">
                       Get Started
                       <ArrowRight className="w-4 h-4" />
@@ -57,42 +50,41 @@ export default async function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <main className="relative">
-        <div className="container mx-auto px-4 py-20 md:py-32">
-          <div className="max-w-6xl mx-auto">
-            {/* Badge */}
-            <div className="flex justify-center mb-8 stagger-container">
-              <div className="inline-flex items-center gap-3 glass px-6 py-3 rounded-full text-sm border border-white/20">
-                <div className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+      <main>
+        <section className="section-padding">
+          <div className="section-content">
+            <div className="container-narrow text-center">
+              {/* Badge */}
+              <div className="mb-8 fade-in">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted text-sm font-medium">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                  </span>
+                  Powered by Claude Sonnet 4
                 </div>
-                <span className="text-muted-foreground font-medium">Powered by Claude Sonnet 4</span>
               </div>
-            </div>
 
-            {/* Main heading with stagger animation */}
-            <div className="text-center mb-12 stagger-container">
-              <h1 className="text-6xl md:text-8xl font-black mb-6 leading-[1.1] tracking-tighter">
-                <span className="block">Создавайте сайты</span>
-                <span className="block gradient-text text-glow-strong inline-block">
-                  за 5 минут
-                </span>
-              </h1>
-
-              <p className="text-xl md:text-2xl text-muted-foreground/90 mb-12 max-w-3xl mx-auto leading-relaxed font-medium">
-                AI-генератор профессиональных сайтов. От текстового описания до готового React компонента с красивым дизайном.
-              </p>
+              {/* Main heading */}
+              <div className="mb-6 fade-in fade-in-delay-1">
+                <h1 className="heading-xl mb-6 text-balance">
+                  Создавайте сайты{' '}
+                  <span className="accent-text">за 5 минут</span>
+                </h1>
+                <p className="body-lg text-muted-foreground max-w-2xl mx-auto text-balance">
+                  AI-генератор профессиональных сайтов. От текстового описания до готового React компонента с красивым дизайном.
+                </p>
+              </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center perspective-1000">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 fade-in fade-in-delay-2">
                 <Button
                   asChild
                   size="lg"
-                  className="text-lg px-10 py-7 glow-hover bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:to-pink-600 border-0 font-bold text-white shadow-2xl"
+                  className="btn-primary text-base"
                 >
-                  <Link href={user ? '/dashboard' : '/signup'} className="flex items-center gap-3">
-                    <CustomIcons.Wand className="w-6 h-6" />
+                  <Link href={user ? '/dashboard' : '/signup'} className="flex items-center gap-2">
+                    <CustomIcons.Wand className="w-5 h-5" />
                     {user ? 'Go to Dashboard' : 'Начать бесплатно'}
                   </Link>
                 </Button>
@@ -100,113 +92,108 @@ export default async function HomePage() {
                   variant="outline"
                   size="lg"
                   asChild
-                  className="text-lg px-10 py-7 glass border-white/20 hover:bg-white/10 font-semibold backdrop-blur-xl transition-all duration-300"
+                  className="btn-secondary text-base"
                 >
                   <Link href="/pricing" className="flex items-center gap-2">
                     Посмотреть тарифы
-                    <ArrowRight className="w-5 h-5" />
+                    <ArrowRight className="w-4 h-4" />
                   </Link>
                 </Button>
               </div>
-            </div>
 
-            {/* Stats with stagger animation */}
-            <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto mb-24 stagger-container">
-              <div className="text-center glass-card py-6 glow-hover">
-                <div className="text-4xl md:text-5xl font-black gradient-text mb-2">3</div>
-                <div className="text-sm text-muted-foreground font-medium uppercase tracking-wider">Free Credits</div>
-              </div>
-              <div className="text-center glass-card py-6 glow-hover">
-                <div className="text-4xl md:text-5xl font-black gradient-text mb-2">5min</div>
-                <div className="text-sm text-muted-foreground font-medium uppercase tracking-wider">Generation</div>
-              </div>
-              <div className="text-center glass-card py-6 glow-hover">
-                <div className="text-4xl md:text-5xl font-black gradient-text mb-2">67%</div>
-                <div className="text-sm text-muted-foreground font-medium uppercase tracking-wider">Cost Cut</div>
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto fade-in fade-in-delay-3">
+                <div className="text-center">
+                  <div className="text-4xl md:text-5xl font-bold mb-2">3</div>
+                  <div className="text-sm text-muted-foreground uppercase tracking-wide font-medium">Free Credits</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl md:text-5xl font-bold mb-2">5min</div>
+                  <div className="text-sm text-muted-foreground uppercase tracking-wide font-medium">Generation</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl md:text-5xl font-bold mb-2">67%</div>
+                  <div className="text-sm text-muted-foreground uppercase tracking-wide font-medium">Cost Cut</div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Features Section */}
-        <div className="container mx-auto px-4 pb-32">
-          <div className="max-w-7xl mx-auto">
-            {/* Section header */}
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">
-                Почему <span className="gradient-text">SiterSyn</span>?
-              </h2>
-              <p className="text-muted-foreground/80 text-lg md:text-xl max-w-2xl mx-auto font-medium">
-                Современная платформа с уникальными технологиями оптимизации
-              </p>
-            </div>
-
-            {/* Feature grid with stagger */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 stagger-container">
-              {/* Feature 1 */}
-              <div className="glass-card glow-hover group perspective-1000">
-                <div className="w-16 h-16 mb-6 relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
-                  <div className="relative w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                    <CustomIcons.Lightning className="w-10 h-10 text-white" />
-                  </div>
-                </div>
-                <h3 className="text-2xl font-bold mb-3">Мгновенно</h3>
-                <p className="text-muted-foreground/80 leading-relaxed">
-                  От промпта до готового сайта за 5 минут. Никаких ожиданий. Просто результат.
+        <section className="section-padding bg-muted/30">
+          <div className="section-content">
+            <div className="container-wide">
+              {/* Section header */}
+              <div className="text-center mb-16">
+                <h2 className="heading-lg mb-4">
+                  Почему <span className="accent-text">SiterSyn</span>?
+                </h2>
+                <p className="body-lg text-muted-foreground max-w-2xl mx-auto">
+                  Современная платформа с уникальными технологиями оптимизации
                 </p>
               </div>
 
-              {/* Feature 2 */}
-              <div className="glass-card glow-hover group perspective-1000">
-                <div className="w-16 h-16 mb-6 relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
-                  <div className="relative w-full h-full bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                    <CustomIcons.Brain className="w-10 h-10 text-white" />
+              {/* Feature grid */}
+              <div className="feature-grid">
+                {/* Feature 1 */}
+                <div className="card-elevated group">
+                  <div className="w-12 h-12 mb-6 bg-primary/10 rounded-lg flex items-center justify-center transition-smooth group-hover:bg-primary/20">
+                    <CustomIcons.Lightning className="w-6 h-6 text-primary" />
                   </div>
+                  <h3 className="text-2xl font-semibold mb-3">Мгновенно</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    От промпта до готового сайта за 5 минут. Никаких ожиданий. Просто результат.
+                  </p>
                 </div>
-                <h3 className="text-2xl font-bold mb-3">AI-Powered</h3>
-                <p className="text-muted-foreground/80 leading-relaxed">
-                  Claude Sonnet 4 с TOON-оптимизацией. Профессиональный код, красивый дизайн.
-                </p>
-              </div>
 
-              {/* Feature 3 */}
-              <div className="glass-card glow-hover group perspective-1000">
-                <div className="w-16 h-16 mb-6 relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
-                  <div className="relative w-full h-full bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                    <CustomIcons.Code className="w-10 h-10 text-white" />
+                {/* Feature 2 */}
+                <div className="card-elevated group">
+                  <div className="w-12 h-12 mb-6 bg-secondary/10 rounded-lg flex items-center justify-center transition-smooth group-hover:bg-secondary/20">
+                    <CustomIcons.Brain className="w-6 h-6 text-secondary" />
                   </div>
+                  <h3 className="text-2xl font-semibold mb-3">AI-Powered</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Claude Sonnet 4 с TOON-оптимизацией. Профессиональный код, красивый дизайн.
+                  </p>
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Полный контроль</h3>
-                <p className="text-muted-foreground/80 leading-relaxed">
-                  Экспортируйте чистый React код. Владейте всем на 100%. Никаких ограничений.
-                </p>
+
+                {/* Feature 3 */}
+                <div className="card-elevated group">
+                  <div className="w-12 h-12 mb-6 bg-primary/10 rounded-lg flex items-center justify-center transition-smooth group-hover:bg-primary/20">
+                    <CustomIcons.Code className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-2xl font-semibold mb-3">Полный контроль</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Экспортируйте чистый React код. Владейте всем на 100%. Никаких ограничений.
+                  </p>
+                </div>
               </div>
             </div>
+          </div>
+        </section>
 
-            {/* Tech highlight */}
-            <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
-              <div className="relative glass p-10 md:p-12 rounded-3xl border border-white/20">
-                <div className="flex flex-col md:flex-row items-center gap-8">
+        {/* TOON Technology Highlight */}
+        <section className="section-padding">
+          <div className="section-content">
+            <div className="container-wide">
+              <div className="card-elevated">
+                <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                   <div className="flex-shrink-0">
-                    <div className="w-24 h-24 relative">
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full blur-2xl opacity-50 animate-glow-pulse"></div>
-                      <div className="relative w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center animate-float">
-                        <CustomIcons.Rocket className="w-14 h-14 text-white" />
-                      </div>
+                    <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center">
+                      <CustomIcons.Rocket className="w-12 h-12 text-primary" />
                     </div>
                   </div>
                   <div className="flex-1 text-center md:text-left">
-                    <h3 className="text-2xl md:text-3xl font-bold mb-3">TOON Encoding Technology</h3>
-                    <p className="text-muted-foreground/80 text-lg leading-relaxed">
-                      Уникальная система сжатия промптов, которая снижает стоимость генерации на <span className="text-green-400 font-bold">67%</span> и ускоряет процесс на <span className="text-blue-400 font-bold">40%</span>. Больше генераций за те же деньги.
+                    <h3 className="heading-md mb-3">TOON Encoding Technology</h3>
+                    <p className="text-muted-foreground text-lg leading-relaxed">
+                      Уникальная система сжатия промптов, которая снижает стоимость генерации на{' '}
+                      <span className="font-semibold text-foreground">67%</span> и ускоряет процесс на{' '}
+                      <span className="font-semibold text-foreground">40%</span>. Больше генераций за те же деньги.
                     </p>
                   </div>
                   <div>
-                    <Button variant="outline" asChild className="glass border-white/20 hover:bg-white/10 font-semibold px-8 text-lg">
+                    <Button asChild className="btn-secondary">
                       <Link href="/pricing">
                         Узнать больше
                       </Link>
@@ -216,27 +203,118 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* How it Works */}
+        <section className="section-padding bg-muted/30">
+          <div className="section-content">
+            <div className="container-narrow">
+              <div className="text-center mb-16">
+                <h2 className="heading-lg mb-4">Как это работает</h2>
+                <p className="body-lg text-muted-foreground">
+                  Три простых шага до вашего готового сайта
+                </p>
+              </div>
+
+              <div className="space-y-8">
+                {/* Step 1 */}
+                <div className="flex gap-6">
+                  <div className="flex-shrink-0 w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-lg">
+                    1
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">Опишите ваш сайт</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Просто напишите, что вы хотите создать. AI поймет ваши требования и создаст профессиональный дизайн.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 2 */}
+                <div className="flex gap-6">
+                  <div className="flex-shrink-0 w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-lg">
+                    2
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">Получите готовый код</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      За 5 минут AI сгенерирует чистый React компонент с современным дизайном и адаптивной версткой.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 3 */}
+                <div className="flex gap-6">
+                  <div className="flex-shrink-0 w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-lg">
+                    3
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">Экспортируйте и используйте</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Скачайте код и интегрируйте в ваш проект. Полный контроль, никаких зависимостей от платформы.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="section-padding">
+          <div className="section-content">
+            <div className="container-narrow text-center">
+              <div className="card-elevated">
+                <h2 className="heading-lg mb-4">Готовы начать?</h2>
+                <p className="body-lg text-muted-foreground mb-8 max-w-xl mx-auto">
+                  Получите 3 бесплатных кредита и создайте ваш первый сайт прямо сейчас
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="btn-primary text-base"
+                  >
+                    <Link href={user ? '/dashboard' : '/signup'} className="flex items-center gap-2">
+                      <CustomIcons.Wand className="w-5 h-5" />
+                      {user ? 'Go to Dashboard' : 'Начать бесплатно'}
+                    </Link>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    asChild
+                    className="btn-secondary text-base"
+                  >
+                    <Link href="/pricing">
+                      Посмотреть тарифы
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
-      <footer className="relative glass border-t border-white/10 py-12 backdrop-blur-3xl">
-        <div className="container mx-auto px-4">
+      <footer className="border-t border-border py-12">
+        <div className="section-content">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-3">
-              <CustomIcons.Sparkle className="w-6 h-6 text-blue-400" />
-              <span className="text-sm text-muted-foreground font-medium">
-                Made with AI by <span className="text-foreground font-semibold">SiterSyn</span>
+              <CustomIcons.Sparkle className="w-5 h-5" />
+              <span className="text-sm text-muted-foreground">
+                Made with AI by <span className="font-semibold text-foreground">SiterSyn</span>
               </span>
             </div>
-            <div className="flex items-center gap-8 text-sm text-muted-foreground font-medium">
-              <Link href="/pricing" className="hover:text-foreground transition-colors duration-200">
+            <div className="flex items-center gap-8 text-sm text-muted-foreground">
+              <Link href="/pricing" className="hover:text-foreground transition-smooth">
                 Pricing
               </Link>
-              <Link href="/dashboard" className="hover:text-foreground transition-colors duration-200">
+              <Link href="/dashboard" className="hover:text-foreground transition-smooth">
                 Dashboard
               </Link>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors duration-200">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-smooth">
                 GitHub
               </a>
             </div>

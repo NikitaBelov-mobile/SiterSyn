@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Loader2 } from 'lucide-react'
 import { CustomIcons } from '@/components/CustomIcons'
 
 export default function LoginPage() {
@@ -61,45 +61,36 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen gradient-bg grid-pattern relative overflow-hidden flex items-center justify-center px-4">
-      {/* Animated background effects */}
-      <div className="absolute inset-0 radial-glow pointer-events-none" />
-      <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-float" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-float-delayed" />
-
+    <div className="min-h-screen bg-background dark flex items-center justify-center px-4 py-12">
       {/* Back button */}
       <Link
         href="/"
-        className="absolute top-6 left-6 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors glass px-5 py-3 rounded-full border border-white/10 hover:border-white/20 group"
+        className="absolute top-6 left-6 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-smooth"
       >
-        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+        <ArrowLeft className="w-4 h-4" />
         <span className="font-medium">Back to home</span>
       </Link>
 
       {/* Login card */}
-      <div className="w-full max-w-md relative z-10 stagger-container">
-        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl blur-2xl opacity-20"></div>
-        <Card className="relative glass border-white/20 shadow-2xl">
-          <CardHeader className="space-y-4 text-center pb-6">
+      <div className="w-full max-w-md">
+        <Card className="border-border shadow-medium">
+          <CardHeader className="space-y-4 text-center pb-8">
             <div className="flex justify-center mb-2">
-              <div className="w-16 h-16 relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full blur-xl opacity-50 animate-glow-pulse"></div>
-                <div className="relative w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                  <CustomIcons.Sparkle className="w-10 h-10 text-white" />
-                </div>
+              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                <CustomIcons.Sparkle className="w-7 h-7 text-primary" />
               </div>
             </div>
-            <CardTitle className="text-3xl font-black tracking-tight">
+            <CardTitle className="text-3xl font-bold tracking-tight">
               Welcome back
             </CardTitle>
-            <CardDescription className="text-base text-muted-foreground/80">
+            <CardDescription className="text-base">
               Sign in to your account to continue creating amazing websites
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-5">
+          <CardContent className="space-y-6">
             <form onSubmit={handleLogin} className="space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-semibold">
+                <Label htmlFor="email" className="text-sm font-medium">
                   Email
                 </Label>
                 <Input
@@ -110,17 +101,17 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={loading}
-                  className="glass border-white/20 bg-white/5 focus:bg-white/10 transition-all h-12 text-base placeholder:text-muted-foreground/50"
+                  className="h-11 transition-smooth"
                 />
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="password" className="text-sm font-semibold">
+                  <Label htmlFor="password" className="text-sm font-medium">
                     Password
                   </Label>
                   <Link
                     href="/forgot-password"
-                    className="text-xs text-blue-400 hover:text-blue-300 transition-colors font-medium"
+                    className="text-xs text-primary hover:underline transition-smooth"
                   >
                     Forgot password?
                   </Link>
@@ -133,41 +124,38 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={loading}
-                  className="glass border-white/20 bg-white/5 focus:bg-white/10 transition-all h-12 text-base placeholder:text-muted-foreground/50"
+                  className="h-11 transition-smooth"
                 />
               </div>
 
               {error && (
-                <div className="p-4 text-sm text-red-400 glass border border-red-500/30 rounded-xl bg-red-500/10 backdrop-blur-xl">
+                <div className="p-4 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-lg">
                   {error}
                 </div>
               )}
 
               <Button
                 type="submit"
-                className="w-full h-12 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:to-pink-600 border-0 glow-hover font-bold text-base shadow-2xl"
+                className="w-full h-11 btn-primary"
                 disabled={loading}
               >
                 {loading ? (
-                  <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="w-4 h-4 animate-spin" />
                     Signing in...
                   </div>
                 ) : (
-                  <div className="flex items-center gap-2">
-                    <CustomIcons.Lightning className="w-5 h-5" />
-                    Sign in
-                  </div>
+                  'Sign in'
                 )}
               </Button>
             </form>
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/10" />
+                <div className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="px-3 glass text-muted-foreground/80 font-semibold tracking-wider">
+                <span className="px-3 bg-card text-muted-foreground font-medium">
                   Or continue with
                 </span>
               </div>
@@ -176,7 +164,7 @@ export default function LoginPage() {
             <Button
               type="button"
               variant="outline"
-              className="w-full h-12 glass border-white/20 hover:bg-white/10 font-semibold text-base backdrop-blur-xl transition-all duration-300"
+              className="w-full h-11 transition-smooth"
               onClick={handleGoogleLogin}
               disabled={loading}
             >
@@ -201,10 +189,10 @@ export default function LoginPage() {
               Continue with Google
             </Button>
           </CardContent>
-          <CardFooter className="flex justify-center border-t border-white/10 pt-6 pb-8">
-            <p className="text-sm text-muted-foreground/80">
+          <CardFooter className="flex justify-center border-t border-border pt-6 pb-8">
+            <p className="text-sm text-muted-foreground">
               Don't have an account?{' '}
-              <Link href="/signup" className="text-blue-400 hover:text-blue-300 font-bold transition-colors">
+              <Link href="/signup" className="text-primary hover:underline font-medium transition-smooth">
                 Sign up
               </Link>
             </p>
